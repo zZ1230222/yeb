@@ -33,19 +33,13 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             String authToken = authHeader.substring(this.tokenHead.length());
             String username = jwtTokenUtil.getUsernameFromToken(authToken);
             //token中存在用户名但未登录
-            if (null != username &&
-                    null == SecurityContextHolder.getContext().getAuthentication()) {
+            if (null != username && null == SecurityContextHolder.getContext().getAuthentication()) {
                 //登录
-                UserDetails userDetails =
-                        this.userDetailsService.loadUserByUsername(username);
+                UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
                 //验证token是否有效，重新设置用户对象
                 if (jwtTokenUtil.validateToken(authToken, userDetails)) {
-                    UsernamePasswordAuthenticationToken authentication =
-                            new UsernamePasswordAuthenticationToken(userDetails,
-                                    null, userDetails.getAuthorities());
-                    authentication.setDetails(new
-                            WebAuthenticationDetailsSource().buildDetails(request));
-
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
             }

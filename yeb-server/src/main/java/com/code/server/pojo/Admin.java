@@ -85,6 +85,6 @@ public class Admin implements Serializable, UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return enabled;
     }
 }

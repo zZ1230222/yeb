@@ -91,7 +91,7 @@ public class JwtTokenUtil {
         return Jwts.builder()
                 .setClaims(claims)
                 .setExpiration(generatorExpirationDate())
-                .signWith(SignatureAlgorithm.ES256, secret)
+                .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
     }
 
@@ -128,7 +128,7 @@ public class JwtTokenUtil {
      */
     private boolean isTokenExpired(String token){
         Date expiredDate = getExpiredDateFromToken(token);
-        return new Date().before(expiredDate);
+        return expiredDate.before(new Date());
     }
 
     /**
