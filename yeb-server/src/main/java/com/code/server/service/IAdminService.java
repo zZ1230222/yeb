@@ -15,6 +15,6 @@ import javax.servlet.http.HttpServletRequest;
  * @since 2021-08-18
  */
 public interface IAdminService extends IService<Admin> {
-    RespBean login(String username, String password, HttpServletRequest request);
+    RespBean login(String username, String password, String code, HttpServletRequest request);
     Admin getAdminByUsername(String username);
 }

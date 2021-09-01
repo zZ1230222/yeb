@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -23,7 +24,7 @@ import java.util.Objects;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author zwj
@@ -47,12 +48,16 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     private String tokenHead;
 
     @Override
-    public RespBean login(String username, String password, HttpServletRequest request) {
+    public RespBean login(String username, String password, String code, HttpServletRequest request) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        if (Objects.isNull(userDetails) || !passwordEncoder.matches(password, userDetails.getPassword())){
+        String captcha = (String) request.getSession().getAttribute("captcha");
+        if (StringUtils.isEmpty(code) || !captcha.equalsIgnoreCase(code)) {
+            return RespBean.error("验证码填写错误！");
+        }
+        if (Objects.isNull(userDetails) || !passwordEncoder.matches(password, userDetails.getPassword())) {
             return RespBean.error("用户名或密码错误!");
         }
-        if (!userDetails.isEnabled()){
+        if (!userDetails.isEnabled()) {
             return RespBean.error("账号被禁用，请联系管理员!");
         }
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

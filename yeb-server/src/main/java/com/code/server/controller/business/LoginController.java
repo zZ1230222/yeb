@@ -29,7 +29,7 @@ public class LoginController {
     @ApiOperation(value = "登录之后返回Token")
     @PostMapping("/login")
     public RespBean login(@RequestBody AdminLoginVo adminLoginVo, HttpServletRequest request) {
-        return adminService.login(adminLoginVo.getUsername(), adminLoginVo.getPassword(), request);
+        return adminService.login(adminLoginVo.getUsername(), adminLoginVo.getPassword(), adminLoginVo.getCode(), request);
     }
 
     @ApiOperation(value = "获取当前用户信息")
