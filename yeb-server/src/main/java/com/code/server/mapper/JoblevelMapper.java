@@ -1,6 +1,6 @@
 package com.code.server.mapper;
 
-import com.code.server.pojo.Joblevel;
+import com.code.server.pojo.JobLevel;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author zwj
  * @since 2021-08-18
  */
-public interface JoblevelMapper extends BaseMapper<Joblevel> {
+public interface JoblevelMapper extends BaseMapper<JobLevel> {
 
 }
