@@ -1,4 +1,4 @@
-package com.code.server.config.security;
+package com.code.server.config.security.component;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
