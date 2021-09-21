@@ -2,6 +2,9 @@ package com.code.server.mapper;
 
 import com.code.server.pojo.Admin;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,11 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface AdminMapper extends BaseMapper<Admin> {
 
+    /**
+     * 根据关键词获取所有操作员，同时排除当前操作员
+     * @param id
+     * @param keywords
+     * @return
+     */
+    List<Admin> getAllAdmins(@Param("id") Integer id, @Param("keywords") String keywords);
 }

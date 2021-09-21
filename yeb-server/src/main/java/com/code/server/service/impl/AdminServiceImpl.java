@@ -9,6 +9,7 @@ import com.code.server.pojo.RespBean;
 import com.code.server.pojo.Role;
 import com.code.server.service.IAdminService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.code.server.utils.AdminUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -53,6 +54,14 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     @Value("${jwt.tokenHead}")
     private String tokenHead;
 
+    /**
+     * 操作员登陆
+     * @param username
+     * @param password
+     * @param code
+     * @param request
+     * @return
+     */
     @Override
     public RespBean login(String username, String password, String code, HttpServletRequest request) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
@@ -75,13 +84,33 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         return RespBean.success("登录成功!", tokenMap);
     }
 
+    /**
+     * 通过用户名获取操作员信息
+     * @param username
+     * @return
+     */
     @Override
     public Admin getAdminByUsername(String username) {
         return adminMapper.selectOne(new QueryWrapper<Admin>().eq("username", username).eq("enabled", true));
     }
 
+    /**
+     * 获取登录员角色
+     * @param adminId
+     * @return
+     */
     @Override
     public List<Role> getRoles(Integer adminId) {
         return roleMapper.getRoles(adminId);
+    }
+
+    /**
+     * 根据关键词获取所有操作员
+     * @param keywords
+     * @return
+     */
+    @Override
+    public List<Admin> getAllAdmins(String keywords) {
+        return adminMapper.getAllAdmins(AdminUtil.getCurrentAdmin().getId(), keywords);
     }
 }
